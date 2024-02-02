@@ -8,6 +8,8 @@ const User = require('./models/User');
 const PanelData = require('./models/Uptime');
 const cron = require('node-cron');
 const axios = require('axios');
+const ejs = require('ejs');
+const path = require('path');
 
 const app = express();
 const port = 3000;
