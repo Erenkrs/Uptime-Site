@@ -6,7 +6,8 @@ const { WebhookClient } = require('discord.js');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const PanelData = require('./models/Uptime');
-
+const cron = require('node-cron');
+const axios = require('axios');
 
 const app = express();
 const port = 3000;
@@ -115,8 +116,7 @@ app.get('/panel/ekle', async (req, res) => {
 });
 
 app.use(express.urlencoded({ extended: true }));
-const cron = require('node-cron');
-const axios = require('axios');
+
 
 // ...
 
@@ -206,6 +206,20 @@ app.post('/panel/delete', async (req, res) => {
   }
 });
 
+cron.schedule('*/30 * * * * *', async () => {
+  try {
+    const allLinks = await PanelData.find();
+
+    for (const link of allLinks) {
+      // Send a ping to the URL using axios or any other HTTP request library
+      await axios.get(link.url);
+    }
+
+    console.log('Pinged all URLs successfully');
+  } catch (error) {
+    console.error('Error pinging URLs:', error);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Uygulama http://localhost:${port} adresinde çalışıyor.`);
