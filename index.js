@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
-const { WebhookClient, MessageEmbed } = require('discord.js');
+const { WebhookClient } = require('discord.js');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const PanelData = require('./models/Uptime');
@@ -13,11 +13,11 @@ const port = 3000;
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-const clientId = '1170080401683910686';
-const clientSecret = 'IZl3DWBLfArJGHVCn_QjlJWt7G_2Wl9N';
-const redirectUri = 'http://localhost:3000/callback';
+const clientId = process.env.REACT_APP_CLIENT_ID;
+const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
+const redirectUri = process.env.REACT_APP_REDIRECT_URI;
 
-const webhookURL = 'https://discord.com/api/webhooks/1202696925439070218/VAvuDwFvGWkcEfkbJ1ZhRfIRW29y-ZBvlYCIoRNgeIELPTQw_vX0O3HhVNDi588ccoEC';
+const webhookURL = process.env.webhookURL;
 
 app.use(session({
   secret: 'your-secret-key',
@@ -141,7 +141,7 @@ app.post('/panel/ekle', async (req, res) => {
     newData.save()
       .then(async () => {
         // Log to webhook
-        const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/1202930574982127616/Hiu2c0p412PR6P1rIIO4e8bCsFbqodVd_IahMME2gXXB0hzxnaTEHMmjNjXR78UPYWDt' });
+        const webhook = new WebhookClient({ url: process.env.DISCORD_WEBHOOK_URL });
         const embed = new MessageEmbed()
           .setColor('#8BDFA9')
           .setDescription(`**<:uptime:1202930398183559218> ${req.user.username} Adlı Kullanıcı Sisteme Link Ekledi: ${name}**`);
@@ -187,7 +187,7 @@ app.post('/panel/delete', async (req, res) => {
       const deletedLink = await PanelData.findOne({ _id: linkId, userId: req.user.id });
       const deletedLinkName = deletedLink.name;
 
-      const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/1202930574982127616/Hiu2c0p412PR6P1rIIO4e8bCsFbqodVd_IahMME2gXXB0hzxnaTEHMmjNjXR78UPYWDt' });
+      const webhook = new WebhookClient({ url: process.env.DISCORD_WEBHOOK_URL });
       const embed = new MessageEmbed()
         .setColor('#E54343')
         .setDescription(`**<:f_delete:1202931247538503752>  ${req.user.username} Adlı Kullanıcı Sistemden Link Sildi: ${deletedLinkName}**`);
