@@ -7,7 +7,233 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css"/>
     <link rel="stylesheet" href="css/panel/panel.css">
     <link rel="stylesheet" href="/css/panel/ekle.css">
+<style>@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
+*{
+    text-decoration: none;
+}
+
+* {
+    font-family: "Nunito", sans-serif;
+}
+
+body {
+    background-color: #111315;
+    overflow-x: hidden;
+    height: 100vh;
+    width: 100%;
+}
+
+.side-bar {
+    width: 7vh;
+    height: 100%;
+    display: flex;
+    position: flex;
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    margin-bottom: 6.5px;
+    cursor: pointer;
+    margin-top: 6.5px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 6px rgba(255, 255, 255, 0.085);
+    background-color: #1b1e21;
+    color: rgb(213, 213, 213);
+}
+
+.btn:hover {
+    background-color: rgb(40, 44, 48);
+}
+
+#close {
+    color: rgb(216, 139, 139);
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.logo {
+    height: 42px;
+    width: 42px;
+    margin-bottom: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+
+}
+
+.logo p {
+    background: linear-gradient(to right, #E96EA5, #4816F3);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
+
+.main {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 90%;
+    margin-left: 10vh;
+    margin-right: auto;
+}
+
+.kap {
+    border-radius: 9px;
+    box-shadow: 0px 0px 6px rgba(255, 255, 255, 0.085);
+    background: rgb(57, 75, 106);
+    background: linear-gradient(90deg, rgba(57, 75, 106, 1) 0%, rgba(44, 58, 83, 1) 100%);
+    width: 716px;
+    display: flex;
+    height: 315px;
+}
+
+.ekle {
+    width: 96px;
+    margin-left: 25px;
+    display: flex;
+    font-weight: 700;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14.5px;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+    justify-content: center;
+    height: 38px;
+    background-color: #4a42e4;
+    margin-right: auto;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.ekle:hover {
+    background-color: #5a52ed;
+    transform: translateY(-4px);
+}
+
+.baslık {
+    font-size: 24px;
+    color: rgb(227, 227, 227);
+    margin-left: 25px;
+}
+
+.text {
+    margin-left: 25px;
+    width: 400px;
+    color: rgb(213, 213, 213);
+    font-size: 18px;
+}
+
+.btn-div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.img {
+    height: 100%;
+    padding-left: 25px;
+    display: flex;
+    height: 100%;
+}
+
+.imgs {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 70px;
+}
+
+#iki {
+    margin-bottom: 60px;
+}
+
+@media only screen and (max-width: 768px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .side-bar {
+        display: flex;
+        width: 100%;
+        height: 10vh;
+        flex-direction: row;
+    }
+
+    .logo {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .logo {
+        margin-left: 5px;
+        margin-right: auto;
+    }
+
+    .btn {
+        margin-left: 6.7px;
+        margin-right: 6.7px;
+    }
+
+    #close {
+        margin-left: auto;
+        margin-right: 25px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0px;
+        height: 100%;
+        width: 95%;
+        padding-left: 0px;
+    }
+
+    .kap {
+        height: 345px;
+        margin-right: auto;
+        margin-left: auto;
+        width: 95%;
+        display: block;
+    }
+
+    .text {
+        width: 90%;
+    }
+
+    .img {
+        display: flex;
+        margin-top: 25px;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #iki {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #uc {
+        margin-right: 25px;
+    }
+}</style>
 </head>
 <body>
     <%- include('include/sidebar.ejs') %>
