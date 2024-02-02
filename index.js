@@ -28,6 +28,14 @@ app.use(session({
   saveUninitialized: false
 }));
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -40,13 +48,6 @@ passport.use(new DiscordStrategy({
   return done(null, profile);
 }));
 
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
 
 app.get('/login', passport.authenticate('discord'));
 
@@ -96,12 +97,15 @@ app.get('/', (req, res) => {
   res.render('index', { user: req.user });
 });
 app.get('/panel', (req, res) => {
+  console.log('Is Authenticated:', req.isAuthenticated());
+
   if (req.isAuthenticated()) {
     res.render('pages/panel', { user: req.user });
   } else {
     res.redirect('/login');
   }
 });
+
 app.get('/panel/ekle', async (req, res) => {
   if (req.isAuthenticated()) {
     try {
