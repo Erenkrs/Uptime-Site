@@ -99,26 +99,16 @@ app.get('/', (req, res) => {
 app.get('/panel', (req, res) => {
   console.log('Is Authenticated:', req.isAuthenticated());
 
-  if (req.isAuthenticated()) {
     res.render('pages/panel', { user: req.user });
-  } else {
-    res.redirect('/login');
-  }
+
 });
 
 app.get('/panel/ekle', async (req, res) => {
-  if (req.isAuthenticated()) {
-    try {
       const userLinks = await PanelData.find({ userId: req.user.id });
 
       res.render('pages/ekle', { user: req.user, userLinks });
-    } catch (error) {
-      console.error('Error fetching user links from MongoDB:', error);
-      res.redirect('/panel/ekle?error=db');
-    }
-  } else {
-    res.redirect('/login');
-  }
+
+
 });
 
 app.use(express.urlencoded({ extended: true }));
