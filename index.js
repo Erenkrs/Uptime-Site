@@ -14,6 +14,7 @@ const path = require('path');
 const app = express();
 const port = 3000;
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Add this line
 app.use(express.static('public'));
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
