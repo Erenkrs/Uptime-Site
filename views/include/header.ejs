@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/include/header.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css"/>
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            Modvibe
+        </div>
+
+        <% if (user) { %>
+            <a class="login" href="/panel">
+                Panel
+            </a>
+          <% } else { %>
+            <a class="login" href="/login">
+                Login
+            </a>
+        <% } %>
+    
+    </nav>
+</body>
+</html>

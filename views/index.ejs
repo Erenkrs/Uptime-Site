@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ana Sayfa</title>
+  <link rel="stylesheet" href="css/main.css">
+
+</head>
+<body>
+    <%- include('include/header.ejs') %>
+    <div class="main">
+        <p class="p-top">
+            Linklerinizi 
+
+        </p>
+        <p class="p-bottom">
+            7/24 aktif tutun!
+        </p>
+        <% if (user) { %>
+            <a class="login" href="/panel">
+                Panel
+            </a>
+          <% } else { %>
+            <a class="login" href="/login">
+                Login
+            </a>
+        <% } %>
+    </div>
+    <div class="ek">
+        <div class="kt" id="kt-ilk">
+            <div class="ikt">
+                <i class="fa-light fa-gauge kt-i"></i>
+            </div>
+            <p class="kt-a">Glitch linklerinizi kısa aralıklarla ziyaret ederek sürekli aktif tutarız.</p>
+        </div>
+
+        <div class="kt">
+            <div class="ikt">
+                <i class="fa-sharp fa-light fa-box-archive kt-i"></i>
+            </div>
+            <p class="kt-a">Linklerinizi güvenli bir depolama alanı olan MongoDB üzerinde depoluyoruz.</p>
+        </div>
+
+        <div class="kt" id="kt-son" >
+            <div class="ikt" >
+                <i class="fa-light fa-location-smile kt-i"></i>
+            </div>
+            <p class="kt-a">Kullanıcı dostu panelimiz ile sizlere harika bir deneyim sunuyoruz..</p>
+        </div>
+    </div>
+
+</body>
+</html>

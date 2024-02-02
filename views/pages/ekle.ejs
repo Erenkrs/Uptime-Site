@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css"/>
+    <link rel="stylesheet" href="css/panel/panel.css">
+    <link rel="stylesheet" href="/css/panel/ekle.css">
+
+</head>
+<body>
+    <%- include('include/sidebar.ejs') %>
+    <div class="aras">
+        
+    </div>
+    <div class="all">
+        <form class="left" action="/panel/ekle" method="post">
+            <input type="text" name="name" id="name" class="input" placeholder="Link Name" required>
+            <input type="url" name="url" id="url" class="input" placeholder="Link Url" required>
+            <button type="submit">Ekle</button>
+        </form>
+        <div class="right">
+            <div class="list">
+                <ul class="lister">
+               
+                <% if (userLinks && userLinks.length > 0) { %>
+               
+                        <% userLinks.forEach(link => { %>
+                            <form class="links" action="/panel/delete" method="post">
+                                <input type="hidden" name="linkId" value="<%= link._id %>">
+                                <a href="<%= link.url %>" target="_blank"><%= link.name %></a>
+                                <input class="detele" type="submit" value="Sil">
+                            </form>
+                        <% }); %>
+                        
+                    </ul>
+                <% } else { %>
+                    <p class="alert">Sana Ait Link Bulunamadı</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+   
+</body>
+</html>

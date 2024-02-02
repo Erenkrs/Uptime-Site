@@ -1,0 +1,210 @@
+body{
+}
+.all {
+    height: 100%;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 15vh;
+    margin-right: 45px;
+    height: 100%;
+    width: 50%;
+}
+
+.right {
+   display: flex;
+   align-items: center;
+   justify-content: left;
+   height: 100%;
+   width: 100%;
+}
+
+.input {
+    width: 360px;
+    border: none;
+    height: 52px;
+    border-radius: 7px;
+    margin-top: 3.5px;
+    background-color: #1E2937;
+    margin-bottom: 3.5px;
+    transition: all 0.2s ease;
+    font-size: 14.7px;
+    color: rgb(213, 213, 213);
+    font-weight: 600;
+    padding-left: 12px;
+    margin-left: 10vh;
+}
+
+.input:focus {
+    outline: 2px solid rgba(53, 101, 214, 0.752);
+}
+
+.right {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+button {
+    background-color: #3C2FB6;
+    margin-top: 11px;
+    height: 52px;
+    border-radius: 7px;
+    color: rgb(196, 196, 196);
+    font-size: 14.5px;
+    cursor: pointer;
+    width: 374px;
+    margin-left: 10vh;
+    border: none;
+    transition: all ease 0.3s;
+}
+
+
+button:hover{
+    background-color: #372ca0;
+   
+}
+
+.list{
+    display: flex;
+    align-items: center;
+    background-color: #1E2937;
+    height: 250px;
+    border-radius: 7px;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    width: 440px;
+}
+
+.lister {
+    margin-bottom: 10pxpx;
+    max-height: 150px;
+    list-style: none;
+    margin-top: auto;
+    overflow-y: scroll;
+    width: 100%;
+    scrollbar-width: thin;  /* Firefox için */
+    scrollbar-color: #888 transparent;  /* Firefox için */
+}
+
+.lister::-webkit-scrollbar {
+    width: 8px;  /* Genişlik */
+}
+
+.lister::-webkit-scrollbar-thumb {
+    background-color: #888;  /* Scrollbar rengi */
+    border-radius: 4px;  /* Scrollbar kenar yarıçapı */
+}
+
+.lister::-webkit-scrollbar-thumb:hover {
+    background-color: #555;  /* Scrollbar üzerine gelindiğindeki renk */
+}
+
+.lister::-webkit-scrollbar-track {
+    background-color: transparent;  /* Scrollbar arka plan rengi */
+}
+
+
+.links{
+    height: 45px;
+    width: 100%;
+    display: flex;
+    margin-left: -25px;
+    padding-left: 12px;
+    align-items: center;
+    border-radius: 5px;
+    justify-content: left;
+}
+.links a {
+    color: rgb(178, 178, 178);
+    text-decoration: none;
+}
+
+.links:hover{
+    cursor: pointer;
+    background-color: #3c4551;
+
+
+}
+
+.alert{
+    color: rgb(151, 151, 151);
+}
+
+.detele{
+    margin-left: auto;
+    margin-right: 12px;
+    background-color: transparent;
+    color: rgb(239, 144, 144);
+    border: none;
+    cursor: pointer;
+}
+
+.header{
+    margin-bottom: auto;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .all{
+        display: block;
+    }
+
+    .left{
+        margin-left: 0px;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .input{
+        margin-left: 0px;
+        width: 170%;
+        margin-right: 25px;
+    }
+
+    button{
+        margin-left: 0px;
+        margin-right: 25px;
+        width: 178%;    }
+.right{
+    height: auto;
+    width: 100%;
+    margin-top: 0px;
+
+}   
+
+.list{
+    width: 90%;
+    display: flex;
+    margin-right: 25px;
+    align-items: center;
+    border-radius: 7px;
+    margin-top: 40px;
+    justify-content: center;
+}
+
+.lister{
+    width: 100%;
+    border-radius: 7px;
+    margin-top: 40px;
+}
+
+.aras{
+    width: 100%;
+    height: 12vh;
+}
+}
