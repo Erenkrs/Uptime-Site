@@ -10,13 +10,12 @@ const path = require('path')
 // ...
 
 
-express.json()
-express.urlencoded({ extended: true })
+
 const app = express();
 const port = 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')); // Add this line
-app.use(express.static(path.join(__dirname, 'public'))); // Add this line
+app.use(express.static('public'));
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
 const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
@@ -33,7 +32,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 passport.use(new DiscordStrategy({
   clientID: clientId,
   clientSecret: clientSecret,
@@ -44,23 +42,14 @@ passport.use(new DiscordStrategy({
 }));
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (error) {
-    done(error, null);
-  }
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
 });
 
-
-
-app.get('/login', passport.authenticate('discord', { failureRedirect: '/' }), (req, res) => {
-  res.redirect('/panel'); // or any other success redirect
-});
+app.get('/login', passport.authenticate('discord'));
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -97,7 +86,7 @@ app.get('/callback', passport.authenticate('discord', {
 
     webhook.send({ embeds: [embed] });
 
-res.redirect('/panel');
+    res.redirect('/panel');
   } catch (error) {
     console.error('Error saving user to MongoDB:', error);
     res.redirect('/');
@@ -108,16 +97,25 @@ app.get('/', (req, res) => {
   res.render('index', { user: req.user });
 });
 app.get('/panel', (req, res) => {
-  console.log('req.user:', req.user);
-
+  if (req.isAuthenticated()) {
     res.render('pages/panel', { user: req.user });
+  } else {
+    res.redirect('/login');
+  }
 });
-
-
 app.get('/panel/ekle', async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
       const userLinks = await PanelData.find({ userId: req.user.id });
 
       res.render('pages/ekle', { user: req.user, userLinks });
+    } catch (error) {
+      console.error('Error fetching user links from MongoDB:', error);
+      res.redirect('/panel/ekle?error=db');
+    }
+  } else {
+    res.redirect('/login');
+  }
 });
 
 app.use(express.urlencoded({ extended: true }));
