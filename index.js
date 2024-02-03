@@ -33,6 +33,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 passport.use(new DiscordStrategy({
   clientID: clientId,
   clientSecret: clientSecret,
@@ -43,17 +44,23 @@ passport.use(new DiscordStrategy({
 }));
 
 passport.serializeUser((user, done) => {
-  console.log('Serializing user:', user);
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser((obj, done) => {
-  console.log('Deserializing user:', obj);
-  done(null, obj);
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
 });
 
 
-app.get('/login', passport.authenticate('discord'));
+
+app.get('/login', passport.authenticate('discord', { failureRedirect: '/' }), (req, res) => {
+  res.redirect('/panel'); // or any other success redirect
+});
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -101,12 +108,15 @@ app.get('/', (req, res) => {
   res.render('index', { user: req.user });
 });
 app.get('/panel', (req, res) => {
-  if (req.isAuthenticated() && req.user && req.user.someProperty) {
+  console.log('req.user:', req.user);
+
+  if (req.isAuthenticated()) {
     res.render('pages/panel', { user: req.user });
   } else {
     res.redirect('/login');
   }
 });
+
 
 app.get('/panel/ekle', async (req, res) => {
   if (req.isAuthenticated()) {
