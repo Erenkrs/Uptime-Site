@@ -2,39 +2,31 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
-const { WebhookClient } = require('discord.js');
+const { WebhookClient, MessageEmbed } = require('discord.js'); // Add this line
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const PanelData = require('./models/Uptime');
-const cron = require('node-cron');
-const axios = require('axios');
-const ejs = require('ejs');
-const path = require('path');
+
+// ...
+
+
 
 const app = express();
 const port = 3000;
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); // Add this line
-app.use(express.static(path.join(__dirname, "public")));
-const clientId = process.env.REACT_APP_CLIENT_ID;
-const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
-const redirectUri = "https://uptime-site-wpox.vercel.app/callback"
+app.use(express.static('public'));
 
-const webhookURL = process.env.webhookURL;
+const clientId = "1170080401683910686"
+const clientSecret = "IZl3DWBLfArJGHVCn_QjlJWt7G_2Wl9N";
+const redirectUri = "http://localhost:3000/callback";
+
+const webhookURL = "https://discord.com/api/webhooks/1202930574982127616/Hiu2c0p412PR6P1rIIO4e8bCsFbqodVd_IahMME2gXXB0hzxnaTEHMmjNjXR78UPYWDt";
 
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
   saveUninitialized: false
 }));
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -48,6 +40,13 @@ passport.use(new DiscordStrategy({
   return done(null, profile);
 }));
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
 
 app.get('/login', passport.authenticate('discord'));
 
@@ -78,7 +77,7 @@ app.get('/callback', passport.authenticate('discord', {
       { upsert: true, new: true }
     );
 
-    const webhook = new WebhookClient({ url: webhookURL });
+    const webhook = new WebhookClient({ url: "https://discord.com/api/webhooks/1202930574982127616/Hiu2c0p412PR6P1rIIO4e8bCsFbqodVd_IahMME2gXXB0hzxnaTEHMmjNjXR78UPYWDt" });
 
     const embed = new MessageEmbed()
       .setColor('#0099ff')
@@ -97,24 +96,30 @@ app.get('/', (req, res) => {
   res.render('index', { user: req.user });
 });
 app.get('/panel', (req, res) => {
-  console.log('Is Authenticated:', req.isAuthenticated());
-
+  if (req.isAuthenticated()) {
     res.render('pages/panel', { user: req.user });
-
+  } else {
+    res.redirect('/login');
+  }
 });
-
 app.get('/panel/ekle', async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
       const userLinks = await PanelData.find({ userId: req.user.id });
 
       res.render('pages/ekle', { user: req.user, userLinks });
-
-
+    } catch (error) {
+      console.error('Error fetching user links from MongoDB:', error);
+      res.redirect('/panel/ekle?error=db');
+    }
+  } else {
+    res.redirect('/login');
+  }
 });
 
 app.use(express.urlencoded({ extended: true }));
-
-
-// ...
+const cron = require('node-cron');
+const axios = require('axios');
 
 app.post('/panel/ekle', async (req, res) => {
   if (req.isAuthenticated()) {
@@ -137,7 +142,7 @@ app.post('/panel/ekle', async (req, res) => {
     newData.save()
       .then(async () => {
         // Log to webhook
-        const webhook = new WebhookClient({ url: process.env.DISCORD_WEBHOOK_URL });
+        const webhook = new WebhookClient({ url: "https://discord.com/api/webhooks/1202930574982127616/Hiu2c0p412PR6P1rIIO4e8bCsFbqodVd_IahMME2gXXB0hzxnaTEHMmjNjXR78UPYWDt" });
         const embed = new MessageEmbed()
           .setColor('#8BDFA9')
           .setDescription(`**<:uptime:1202930398183559218> ${req.user.username} Adlı Kullanıcı Sisteme Link Ekledi: ${name}**`);
@@ -183,7 +188,7 @@ app.post('/panel/delete', async (req, res) => {
       const deletedLink = await PanelData.findOne({ _id: linkId, userId: req.user.id });
       const deletedLinkName = deletedLink.name;
 
-      const webhook = new WebhookClient({ url: process.env.DISCORD_WEBHOOK_URL });
+      const webhook = new WebhookClient({ url: "https://discord.com/api/webhooks/1202930574982127616/Hiu2c0p412PR6P1rIIO4e8bCsFbqodVd_IahMME2gXXB0hzxnaTEHMmjNjXR78UPYWDt" });
       const embed = new MessageEmbed()
         .setColor('#E54343')
         .setDescription(`**<:f_delete:1202931247538503752>  ${req.user.username} Adlı Kullanıcı Sistemden Link Sildi: ${deletedLinkName}**`);
@@ -202,20 +207,6 @@ app.post('/panel/delete', async (req, res) => {
   }
 });
 
-cron.schedule('*/30 * * * * *', async () => {
-  try {
-    const allLinks = await PanelData.find();
-
-    for (const link of allLinks) {
-      // Send a ping to the URL using axios or any other HTTP request library
-      await axios.get(link.url);
-    }
-
-    console.log('Pinged all URLs successfully');
-  } catch (error) {
-    console.error('Error pinging URLs:', error);
-  }
-});
 
 app.listen(port, () => {
   console.log(`Uygulama http://localhost:${port} adresinde çalışıyor.`);
