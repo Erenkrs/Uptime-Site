@@ -43,12 +43,15 @@ passport.use(new DiscordStrategy({
 }));
 
 passport.serializeUser((user, done) => {
+  console.log('Serializing user:', user);
   done(null, user);
 });
 
 passport.deserializeUser((obj, done) => {
+  console.log('Deserializing user:', obj);
   done(null, obj);
 });
+
 
 app.get('/login', passport.authenticate('discord'));
 
@@ -87,7 +90,7 @@ app.get('/callback', passport.authenticate('discord', {
 
     webhook.send({ embeds: [embed] });
 
-    res.redirect('/panel');
+res.redirect('/panel');
   } catch (error) {
     console.error('Error saving user to MongoDB:', error);
     res.redirect('/');
