@@ -78,7 +78,7 @@ app.get('/callback', passport.authenticate('discord', {
       { upsert: true, new: true }
     );
 
-    const webhook = new WebhookClient({ url: process.env.REACT_APP_REDIRECT_URI });
+    const webhook = new WebhookClient({ url: process.env.webhookURL });
 
     const embed = new MessageEmbed()
       .setColor('#0099ff')
@@ -143,7 +143,7 @@ app.post('/panel/ekle', async (req, res) => {
     newData.save()
       .then(async () => {
         // Log to webhook
-        const webhook = new WebhookClient({ url: process.env.REACT_APP_REDIRECT_URI });
+        const webhook = new WebhookClient({ url: process.env.webhookURL });
         const embed = new MessageEmbed()
           .setColor('#8BDFA9')
           .setDescription(`**<:uptime:1202930398183559218> ${req.user.username} Adlı Kullanıcı Sisteme Link Ekledi: ${name}**`);
@@ -189,7 +189,7 @@ app.post('/panel/delete', async (req, res) => {
       const deletedLink = await PanelData.findOne({ _id: linkId, userId: req.user.id });
       const deletedLinkName = deletedLink.name;
 
-      const webhook = new WebhookClient({ url: process.env.REACT_APP_REDIRECT_URI });
+      const webhook = new WebhookClient({ url: process.env.webhookURL });
       const embed = new MessageEmbed()
         .setColor('#E54343')
         .setDescription(`**<:f_delete:1202931247538503752>  ${req.user.username} Adlı Kullanıcı Sistemden Link Sildi: ${deletedLinkName}**`);
