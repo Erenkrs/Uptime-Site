@@ -101,12 +101,13 @@ app.get('/', (req, res) => {
   res.render('index', { user: req.user });
 });
 app.get('/panel', (req, res) => {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user && req.user.someProperty) {
     res.render('pages/panel', { user: req.user });
   } else {
     res.redirect('/login');
   }
 });
+
 app.get('/panel/ekle', async (req, res) => {
   if (req.isAuthenticated()) {
     try {
